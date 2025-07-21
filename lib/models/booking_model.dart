@@ -16,6 +16,9 @@ class Booking {
   final User? user;
   final Homestay? homestay;
 
+  //membuat booking
+  //shintia
+
   Booking({
     this.id,
     required this.userId,

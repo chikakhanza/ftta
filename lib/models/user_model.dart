@@ -42,3 +42,5 @@ class User {
     );
   }
 } 
+//membuat useer
+//shintia
