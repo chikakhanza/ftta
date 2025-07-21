@@ -68,4 +68,4 @@ class Homestay {
   }
 } 
 //membuat homestay
-//shintia
+//shintia amanda
