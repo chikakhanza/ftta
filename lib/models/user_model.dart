@@ -43,4 +43,4 @@ class User {
   }
 } 
 //membuat useer
-//shintia amanda
+//shintia amandaa
