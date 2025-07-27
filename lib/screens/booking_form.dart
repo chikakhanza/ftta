@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/homestay_model.dart';
 import '../services/api_service.dart';
 import 'payment_screen.dart';
+import 'booking_detail_screen.dart';
 
 class BookingFormScreen extends StatefulWidget {
   final Homestay homestay;
@@ -112,7 +113,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
       if (mounted) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => PaymentScreen(booking: booking),
+            builder: (context) => BookingDetailScreen(booking: booking),
           ),
         );
       }
