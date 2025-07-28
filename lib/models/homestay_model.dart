@@ -19,18 +19,18 @@ class Homestay {
     required this.totalBayar,
   });
 
-  factory Homestay.fromJson(Map<String, dynamic> json) {
-    return Homestay(
-      id: json['id'],
-      kode: json['kode'],
-      tipeKamar: json['tipe_kamar'],
-      hargaSewaPerHari: (json['harga_sewa_per_hari'] as num).toDouble(),
-      fasilitas: json['fasilitas'],
-      jumlahKamar: json['jumlah_kamar'],
-      lamaInap: json['lama_inap'],
-      totalBayar: (json['total_bayar'] as num).toDouble(),
-    );
-  }
+factory Homestay.fromJson(Map<String, dynamic> json) {
+  return Homestay(
+    id: json['id'],
+    kode: json['kode'] ?? '',
+    tipeKamar: json['tipe_kamar'] ?? '',
+    hargaSewaPerHari: (json['harga_sewa_per_hari'] as num?)?.toDouble() ?? 0.0,
+    fasilitas: json['fasilitas'],
+    jumlahKamar: json['jumlah_kamar'] ?? 0,
+    lamaInap: json['lama_inap'] ?? 0,
+    totalBayar: (json['total_bayar'] as num?)?.toDouble() ?? 0.0,
+  );
+}
 
   Map<String, dynamic> toJson() {
     return {
