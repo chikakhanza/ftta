@@ -66,5 +66,8 @@ factory Homestay.fromJson(Map<String, dynamic> json) {
       totalBayar: totalBayar ?? this.totalBayar,
     );
   }
+
+  double get harga => hargaSewaPerHari;
+  String get nama => tipeKamar;
 } 
 //membuat homestay

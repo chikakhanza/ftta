@@ -3,6 +3,8 @@ import '../models/homestay_model.dart';
 import '../services/api_service.dart';
 import 'payment_screen.dart';
 import 'booking_detail_screen.dart';
+import '../models/booking_model.dart'; // Added import for Booking model
+import '../services/notification_service.dart';
 
 class BookingFormScreen extends StatefulWidget {
   final Homestay homestay;
@@ -95,20 +97,40 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
       final totalBayar = _calculateTotalBayar();
       final denda = keterlambatan > 0 ? totalBayar * 0.1 * keterlambatan : 0;
 
-      final bookingData = {
-        'user_id': 1, // TODO: Get from user session
-        'homestay_id': widget.homestay.id,
-        'check_in': _checkInDate!.toIso8601String(),
-        'check_out': _checkOutDate!.toIso8601String(),
-        'jumlah_kamar': jumlahKamar,
-        'total_hari': totalHari,
-        'keterlambatan': keterlambatan,
-        'denda': denda,
-        'total_bayar': totalBayar,
-        'catatan': _catatanController.text.trim(),
-      };
+      // Cek ketersediaan kamar
+      final available = await ApiService.checkAvailability(
+        homestayId: widget.homestay.id ?? 0,
+        checkIn: _checkInDate!,
+        checkOut: _checkOutDate!,
+        jumlahKamar: jumlahKamar,
+      );
+      if (!available) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Kamar tidak tersedia untuk tanggal dan jumlah yang dipilih.'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+        setState(() => _isLoading = false);
+        return;
+      }
 
-      final booking = await ApiService.createBooking(bookingData);
+      final booking = Booking(
+        userId: 1, // TODO: Get from user session
+        homestayId: widget.homestay.id ?? 0,
+        checkIn: _checkInDate!,
+        checkOut: _checkOutDate!,
+        jumlahKamar: int.parse(_jumlahKamarController.text),
+        totalHarga: totalBayar.round(),
+      );
+      await ApiService.createBooking(booking);
+      // Jadwalkan notifikasi pengingat check-in H-1
+      await NotificationService.scheduleCheckInReminder(
+        booking.checkIn,
+        widget.homestay.nama,
+      );
 
       if (mounted) {
         Navigator.of(context).pushReplacement(
