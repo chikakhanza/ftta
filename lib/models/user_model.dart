@@ -44,3 +44,4 @@ class User {
 } 
 //membuat useer
 //shintia amandaa
+//membat fitur2
