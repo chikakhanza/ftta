@@ -113,7 +113,7 @@ class HomestayCard extends StatelessWidget {
                             const SizedBox(width: 12),
                             Icon(Icons.star, size: 16, color: Colors.amber[700]),
                             const SizedBox(width: 2),
-                            Text('4.8', style: TextStyle(color: Colors.amber[700], fontSize: 12)),
+                            Text('4.5', style: TextStyle(color: Colors.amber[700], fontSize: 12)),
                 ],
               ),
               if (homestay.fasilitas != null && homestay.fasilitas!.isNotEmpty) ...[

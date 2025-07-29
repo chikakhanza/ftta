@@ -1,36 +1,39 @@
 class Homestay {
-  final int? id;
+  final int id;
   final String kode;
   final String tipeKamar;
-  final double hargaSewaPerHari;
+  final int hargaSewaPerHari;
   final String? fasilitas;
   final int jumlahKamar;
-  final int lamaInap;
-  final double totalBayar;
+  final String? fotokamar;
+  final String? createdAt;
+  final String? updatedAt;
 
   Homestay({
-    this.id,
+    required this.id,
     required this.kode,
     required this.tipeKamar,
     required this.hargaSewaPerHari,
     this.fasilitas,
     required this.jumlahKamar,
-    required this.lamaInap,
-    required this.totalBayar,
+    this.fotokamar,
+    this.createdAt,
+    this.updatedAt,
   });
 
-factory Homestay.fromJson(Map<String, dynamic> json) {
-  return Homestay(
-    id: json['id'],
-    kode: json['kode'] ?? '',
-    tipeKamar: json['tipe_kamar'] ?? '',
-    hargaSewaPerHari: (json['harga_sewa_per_hari'] as num?)?.toDouble() ?? 0.0,
-    fasilitas: json['fasilitas'],
-    jumlahKamar: json['jumlah_kamar'] ?? 0,
-    lamaInap: json['lama_inap'] ?? 0,
-    totalBayar: (json['total_bayar'] as num?)?.toDouble() ?? 0.0,
-  );
-}
+  factory Homestay.fromJson(Map<String, dynamic> json) {
+    return Homestay(
+      id: json['id'] ?? 0,
+      kode: json['kode'] ?? '',
+      tipeKamar: json['tipe_kamar'] ?? '',
+      hargaSewaPerHari: json['harga_sewa_per_hari'] ?? 0,
+      fasilitas: json['fasilitas'],
+      jumlahKamar: json['jumlah_kamar'] ?? 0,
+      fotokamar: json['fotokamar'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return {
@@ -40,31 +43,23 @@ factory Homestay.fromJson(Map<String, dynamic> json) {
       'harga_sewa_per_hari': hargaSewaPerHari,
       'fasilitas': fasilitas,
       'jumlah_kamar': jumlahKamar,
-      'lama_inap': lamaInap,
-      'total_bayar': totalBayar,
+      'fotokamar': fotokamar,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
     };
   }
 
-  Homestay copyWith({
-    int? id,
-    String? kode,
-    String? tipeKamar,
-    double? hargaSewaPerHari,
-    String? fasilitas,
-    int? jumlahKamar,
-    int? lamaInap,
-    double? totalBayar,
-  }) {
-    return Homestay(
-      id: id ?? this.id,
-      kode: kode ?? this.kode,
-      tipeKamar: tipeKamar ?? this.tipeKamar,
-      hargaSewaPerHari: hargaSewaPerHari ?? this.hargaSewaPerHari,
-      fasilitas: fasilitas ?? this.fasilitas,
-      jumlahKamar: jumlahKamar ?? this.jumlahKamar,
-      lamaInap: lamaInap ?? this.lamaInap,
-      totalBayar: totalBayar ?? this.totalBayar,
-    );
+  // Helper method untuk mendapatkan URL foto lengkap
+  String? getImageUrl() {
+    if (fotokamar != null && fotokamar!.isNotEmpty) {
+      return 'http://192.168.1.38:8000/fotokamar/$fotokamar';
+    }
+    return null;
+  }
+
+  // Helper method untuk debugging URL
+  String getDebugInfo() {
+    return 'Homestay ${kode}: fotokamar=${fotokamar}, URL=${getImageUrl()}';
   }
 } 
 //membuat homestay
