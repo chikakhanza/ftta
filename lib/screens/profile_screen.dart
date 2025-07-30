@@ -38,4 +38,3 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
-//shintia
